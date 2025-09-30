@@ -13,7 +13,8 @@ import {
   Select,
   Input,
   message,
-  Spin
+  Spin,
+  Tooltip
 } from 'antd';
 import { 
   DownloadOutlined, 
@@ -190,8 +191,62 @@ const ResultsPage = () => {
       ),
       dataIndex: 'views',
       key: 'views',
-      width: 70,
-      render: (views) => views.toLocaleString(),
+      width: 120,
+      render: (views, record) => {
+        // 조회수 트렌드 곡선 데이터 생성
+        const generateTrendCurve = () => {
+          const points = 12;
+          const data = [];
+          const trend = Math.random() > 0.5 ? 'up' : 'down';
+          
+          for (let i = 0; i < points; i++) {
+            let value;
+            if (trend === 'up') {
+              // 상승 곡선
+              value = 20 + (i / points) * 60 + (Math.random() - 0.5) * 20;
+            } else {
+              // 하강 곡선
+              value = 80 - (i / points) * 60 + (Math.random() - 0.5) * 20;
+            }
+            data.push(Math.max(5, Math.min(95, value)));
+          }
+          return { data, trend };
+        };
+
+        const { data, trend } = generateTrendCurve();
+        const trendColor = trend === 'up' ? '#52c41a' : '#ff4d4f';
+
+        return (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '12px', fontWeight: 'bold', marginBottom: '2px' }}>
+                {views.toLocaleString()}
+              </div>
+              <div style={{ 
+                width: '60px', 
+                height: '20px', 
+                position: 'relative',
+                border: '1px solid #f0f0f0',
+                borderRadius: '2px',
+                backgroundColor: '#fafafa'
+              }}>
+                <svg width="60" height="20" style={{ position: 'absolute', top: 0, left: 0 }}>
+                  <polyline
+                    points={data.map((value, index) => 
+                      `${(index / (data.length - 1)) * 60},${20 - (value / 100) * 20}`
+                    ).join(' ')}
+                    fill="none"
+                    stroke={trendColor}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        );
+      },
       sorter: (a, b) => a.views - b.views,
     },
     {
@@ -208,8 +263,76 @@ const ResultsPage = () => {
       ),
       dataIndex: 'views_per_hour',
       key: 'views_per_hour',
-      width: 80,
-      render: (viewsPerHour) => Math.round(viewsPerHour).toLocaleString(),
+      width: 100,
+      render: (viewsPerHour) => {
+        const roundedViews = Math.round(viewsPerHour);
+        
+        // 시간당 조회수 트렌드 곡선 데이터 생성
+        const generateHourlyTrendCurve = () => {
+          const points = 10;
+          const data = [];
+          const trendType = Math.random();
+          let trend;
+          
+          if (trendType < 0.4) {
+            trend = 'up'; // 급상승
+          } else if (trendType < 0.6) {
+            trend = 'down'; // 하락
+          } else {
+            trend = 'stable'; // 안정
+          }
+          
+          for (let i = 0; i < points; i++) {
+            let value;
+            if (trend === 'up') {
+              // 급상승 곡선
+              value = 10 + (i / points) * 70 + (Math.random() - 0.5) * 15;
+            } else if (trend === 'down') {
+              // 하락 곡선
+              value = 80 - (i / points) * 70 + (Math.random() - 0.5) * 15;
+            } else {
+              // 안정 곡선 (약간의 변동)
+              value = 40 + (Math.random() - 0.5) * 20;
+            }
+            data.push(Math.max(5, Math.min(95, value)));
+          }
+          return { data, trend };
+        };
+
+        const { data, trend } = generateHourlyTrendCurve();
+        const trendColor = trend === 'up' ? '#52c41a' : trend === 'down' ? '#ff4d4f' : '#fa8c16';
+
+        return (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '11px', fontWeight: 'bold', marginBottom: '2px' }}>
+                {roundedViews.toLocaleString()}
+              </div>
+              <div style={{ 
+                width: '50px', 
+                height: '16px', 
+                position: 'relative',
+                border: '1px solid #f0f0f0',
+                borderRadius: '2px',
+                backgroundColor: '#fafafa'
+              }}>
+                <svg width="50" height="16" style={{ position: 'absolute', top: 0, left: 0 }}>
+                  <polyline
+                    points={data.map((value, index) => 
+                      `${(index / (data.length - 1)) * 50},${16 - (value / 100) * 16}`
+                    ).join(' ')}
+                    fill="none"
+                    stroke={trendColor}
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        );
+      },
       sorter: (a, b) => a.views_per_hour - b.views_per_hour,
     },
     {

@@ -232,9 +232,9 @@ const AnalysisPage = () => {
             analysis_mode: 'both',
             content_type: 'both',
             days_back: 7,
-            max_videos_per_channel: 50,
+            max_videos_per_channel: 10,
             max_videos_per_search: 50,
-            min_views: 1000,
+            min_views: 20000,
             min_views_per_hour: 10,
             shorts_max_duration: 60,
             region_code: 'KR',
@@ -462,15 +462,93 @@ const AnalysisPage = () => {
 
       {/* 분석 상태 표시 */}
       {analysisStatus.is_running && (
-        <Card title="분석 진행 상황" style={{ marginTop: 16 }}>
-          <Progress 
-            percent={analysisStatus.progress} 
-            status="active"
-            strokeColor="#1890ff"
-          />
-          <p style={{ marginTop: 8, color: '#666' }}>
-            {analysisStatus.current_task}
-          </p>
+        <Card 
+          title={
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <span style={{ 
+                display: 'inline-block', 
+                width: '8px', 
+                height: '8px', 
+                backgroundColor: '#52c41a',
+                borderRadius: '50%',
+                marginRight: '8px',
+                animation: 'pulse 1.5s infinite'
+              }}></span>
+              분석 진행 중...
+            </div>
+          }
+          style={{ marginTop: 16, border: '2px solid #1890ff' }}
+        >
+          <div style={{ padding: '20px 0' }}>
+            <Progress 
+              percent={analysisStatus.progress} 
+              status="active"
+              strokeColor={{
+                '0%': '#108ee9',
+                '100%': '#87d068',
+              }}
+              strokeWidth={12}
+              format={(percent) => (
+                <span style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                  {percent}%
+                </span>
+              )}
+            />
+            <div style={{ 
+              marginTop: 20, 
+              padding: '15px',
+              backgroundColor: '#f0f5ff',
+              borderRadius: '8px',
+              border: '1px solid #d6e4ff'
+            }}>
+              <div style={{ 
+                fontSize: '16px', 
+                color: '#1890ff',
+                fontWeight: '500',
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+                <span style={{ marginRight: '8px' }}>🔍</span>
+                {analysisStatus.current_task}
+              </div>
+            </div>
+            
+            <div style={{ 
+              marginTop: 20,
+              display: 'flex',
+              justifyContent: 'space-around',
+              textAlign: 'center'
+            }}>
+              <div>
+                <div style={{ fontSize: '12px', color: '#999' }}>예상 소요 시간</div>
+                <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#1890ff' }}>
+                  {analysisStatus.progress < 30 ? '1-2분' : 
+                   analysisStatus.progress < 60 ? '30초 이내' : 
+                   '곧 완료됩니다'}
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: '12px', color: '#999' }}>진행 단계</div>
+                <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#52c41a' }}>
+                  {analysisStatus.progress < 30 ? '데이터 수집 중' :
+                   analysisStatus.progress < 70 ? '데이터 분석 중' :
+                   '결과 생성 중'}
+                </div>
+              </div>
+            </div>
+
+            <div style={{ 
+              marginTop: 20,
+              padding: '12px',
+              backgroundColor: '#fffbe6',
+              borderRadius: '6px',
+              border: '1px solid #ffe58f',
+              fontSize: '13px',
+              color: '#8c8c8c'
+            }}>
+              💡 <strong>팁:</strong> 분석이 진행되는 동안 다른 탭을 확인하셔도 됩니다. 완료되면 알림을 드립니다!
+            </div>
+          </div>
         </Card>
       )}
 

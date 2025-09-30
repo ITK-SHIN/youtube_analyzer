@@ -111,11 +111,15 @@ async def _run_analysis_async(settings: AnalysisSettings):
         analysis_status["current_task"] = "YouTube 데이터 수집 중..."
         analysis_status["progress"] = 20
         
+        logger.info(f"분석 시작 - 설정: {settings.dict()}")
         videos = await youtube_service.collect_data(settings)
         
+        logger.info(f"수집된 영상 수: {len(videos) if videos else 0}")
+        
         if not videos:
-            analysis_status["error"] = "수집된 데이터가 없습니다."
+            analysis_status["error"] = "수집된 데이터가 없습니다. 검색 조건을 확인해주세요."
             analysis_status["is_running"] = False
+            logger.warning("수집된 데이터가 없음")
             return
         
         # 2단계: 데이터 분석

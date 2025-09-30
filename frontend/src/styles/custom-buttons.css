@@ -1,0 +1,87 @@
+/* 커스텀 버튼 스타일 */
+.ant-btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.ant-btn-primary:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #654a8e 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.ant-btn-primary:active {
+  transform: translateY(0);
+}
+
+.ant-btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.ant-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Input 스타일 */
+.ant-input,
+.ant-input-number,
+.ant-select-selector,
+.ant-input-textarea {
+  border-radius: 8px;
+  border: 2px solid #e8e8e8;
+  transition: all 0.3s ease;
+}
+
+.ant-input:focus,
+.ant-input-number:focus,
+.ant-select-focused .ant-select-selector,
+.ant-input-textarea:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Switch 스타일 */
+.ant-switch-checked {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Progress 스타일 */
+.ant-progress-bg {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Tag 스타일 */
+.ant-tag {
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 4px 12px;
+}
+
+/* Divider 스타일 */
+.ant-divider {
+  border-color: rgba(102, 126, 234, 0.2);
+}
+
+/* Alert 스타일 */
+.ant-alert {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Statistic 스타일 */
+.ant-statistic-title {
+  font-weight: 600;
+  color: #8c8c8c;
+}
+
+.ant-statistic-content {
+  font-weight: 700;
+}

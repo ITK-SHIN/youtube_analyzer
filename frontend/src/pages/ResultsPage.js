@@ -16,10 +16,8 @@ import {
   Spin
 } from 'antd';
 import { 
-  EyeOutlined, 
   DownloadOutlined, 
   LinkOutlined,
-  PlayCircleOutlined,
   SortAscendingOutlined,
   SortDescendingOutlined
 } from '@ant-design/icons';
@@ -35,7 +33,6 @@ const ResultsPage = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [sortField, setSortField] = useState('views');
   const [sortOrder, setSortOrder] = useState('descend');
-  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     loadAnalysisResult();
@@ -75,8 +72,6 @@ const ResultsPage = () => {
   };
 
   const handleSearch = (value) => {
-    setSearchText(value);
-    
     if (!value) {
       setFilteredData(analysisResult?.videos || []);
       return;

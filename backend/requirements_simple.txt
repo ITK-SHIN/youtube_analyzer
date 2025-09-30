@@ -1,0 +1,10 @@
+# 기본 패키지들만 설치
+fastapi
+uvicorn[standard]
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+requests
+python-multipart
+python-dotenv
+aiofiles
